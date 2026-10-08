@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item Form</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 30px;
+        }
+
+        form {
+            width: 400px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<form id="jslab1_form_validation">
+
+    <h2>Add Item</h2>
+
+    <label>Item Name</label>
+    <input type="text" id="itemName">
+    <div id="itemNameError" class="error"></div>
+
+
+    <label>Item Cost Price</label>
+    <input type="number" id="costPrice">
+    <div id="costPriceError" class="error"></div>
+
+
+    <label>Item Sell Price</label>
+    <input type="number" id="sellPrice">
+    <div id="sellPriceError" class="error"></div>
+
+
+    <label>Discount (%)</label>
+    <input type="number" id="discount">
+    <div id="discountError" class="error"></div>
+
+
+    <label>Category</label>
+    <select id="category">
+        <option value="">Select Category</option>
+        <option value="Medicine">Medicine</option>
+        <option value="Cosmetic">Cosmetic</option>
+        <option value="Food">Food</option>
+        <option value="Other">Other</option>
+    </select>
+    <div id="categoryError" class="error"></div>
+
+
+    <label>Company</label>
+    <select id="company">
+        <option value="">Select Company</option>
+        <option value="Company 1">Company 1</option>
+        <option value="Company 2">Company 2</option>
+        <option value="Company 3">Company 3</option>
+    </select>
+    <div id="companyError" class="error"></div>
+
+
+    <label>For Whom</label>
+    <select id="forWhom">
+        <option value="">Select</option>
+        <option value="His">His</option>
+        <option value="Her">Her</option>
+        <option value="Generic">Generic</option>
+    </select>
+    <div id="forWhomError" class="error"></div>
+
+
+    <button type="submit">Save</button>
+
+</form>
+
+
+<script>
+
+document.getElementById("jslab1_form_validation").onsubmit = function(event) {
+
+    event.preventDefault();
+
+    // Getting values
+    var itemName = document.getElementById("itemName").value;
+    var costPrice = Number(document.getElementById("costPrice").value);
+    var sellPrice = Number(document.getElementById("sellPrice").value);
+    var discount = Number(document.getElementById("discount").value);
+
+    var category = document.getElementById("category").value;
+    var company = document.getElementById("company").value;
+    var forWhom = document.getElementById("forWhom").value;
+
+    var valid = true;
+
+
+    // Item name validation
+    if (itemName == "") {
+        document.getElementById("itemNameError").innerHTML =
+            "Item name is required";
+        valid = false;
+    } else {
+        document.getElementById("itemNameError").innerHTML = "";
+    }
+
+
+    // Cost price validation
+    if (costPrice <= 0 || isNaN(costPrice)) {
+        document.getElementById("costPriceError").innerHTML =
+            "Enter valid cost price";
+        valid = false;
+    } else {
+        document.getElementById("costPriceError").innerHTML = "";
+    }
+
+
+    // Sell price validation
+    if (sellPrice <= 0 || isNaN(sellPrice)) {
+
+        document.getElementById("sellPriceError").innerHTML =
+            "Enter valid sell price";
+
+        valid = false;
+
+    } else if (sellPrice <= costPrice) {
+
+        document.getElementById("sellPriceError").innerHTML =
+            "Sell price must be greater than cost price";
+
+        valid = false;
+
+    } else {
+
+        document.getElementById("sellPriceError").innerHTML = "";
+    }
+
+
+    // Discount validation
+    if (discount < 0 || discount > 25 || isNaN(discount)) {
+
+        document.getElementById("discountError").innerHTML =
+            "Discount must be between 0% and 25%";
+
+        valid = false;
+
+    } else {
+
+        // Calculate price after discount
+        var finalPrice =
+            sellPrice - (sellPrice * discount / 100);
+
+        if (finalPrice < costPrice) {
+
+            document.getElementById("discountError").innerHTML =
+                "After discount price cannot be less than cost price";
+
+            valid = false;
+
+        } else {
+
+            document.getElementById("discountError").innerHTML = "";
+        }
+    }
+
+
+    // Category validation
+    if (category == "") {
+
+        document.getElementById("categoryError").innerHTML =
+            "Please select category";
+
+        valid = false;
+
+    } else {
+
+        document.getElementById("categoryError").innerHTML = "";
+    }
+
+
+    // Company validation
+    if (company == "") {
+
+        document.getElementById("companyError").innerHTML =
+            "Please select company";
+
+        valid = false;
+
+    } else {
+
+        document.getElementById("companyError").innerHTML = "";
+    }
+
+
+    // For whom validation
+    if (forWhom == "") {
+
+        document.getElementById("forWhomError").innerHTML =
+            "Please select an option";
+
+        valid = false;
+
+    } else {
+
+        document.getElementById("forWhomError").innerHTML = "";
+    }
+
+
+    // Final result
+    if (valid == true) {
+
+        alert("Form submitted successfully!");
+
+    }
+
+};
+
+</script>
+
+</body>
+</html>
+```
